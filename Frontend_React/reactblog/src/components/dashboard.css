@@ -1,0 +1,39 @@
+#profile {
+    height: 120px;
+    width: 120px;
+    margin: 20px 20%;
+    display: block;
+    border: 2px solid #2c2f3f;
+    background-color:aliceblue;
+    text-align: center;
+}
+
+.logout {
+    position: absolute;
+    bottom: 10px;
+    right:60px;
+    width:150px;
+  }
+
+.table-title {
+    text-align: left;
+
+}
+th,td {
+    text-align: center;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+    color:goldenrod;
+}
+
+.card{
+    width: 21rem; 
+    display: inline-block;
+    border-radius: 10px;
+    margin: 15px;
+
+}

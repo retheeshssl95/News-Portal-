@@ -1,0 +1,32 @@
+{% extends 'base_page.html' %}
+{% block title %} <title>Blog Update</title> {% endblock  %}
+
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 my-3 mx-auto p-4 bg-light" style="border-radius: 20px;">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h2 class="text-center"><strong>UPDATE POST</strong></h2><hr>
+                    <div class="form-group">
+                        <label for="title" class="form-label">Title : </label>
+                        <input type="text" name="title" id="title" class="form-control" value="{{form.title.value}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Content:</label>
+                        <textarea type="text" class="form-control" rows="10" id="content" name="content" >{{form.content.value}}</textarea>
+                      </div>
+                    <div class="form-group">
+                        <label for="image"class="text-primary">{{form.image.value.name}}</label>
+                      
+                        <input type="file" name="image" id="image" class="form-control-file border">
+                    </div>
+                    <input type="hidden" name="author" value="{{ request.user.id }}">
+                   <button type="submit" class="btn btn-outline-warning mb-2 mt-2">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

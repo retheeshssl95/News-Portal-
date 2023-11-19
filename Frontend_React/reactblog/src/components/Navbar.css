@@ -1,0 +1,12 @@
+.search-item{
+    border-radius: 20px;
+}
+.nav-item{
+    color: white;
+}
+.nav-link:hover{
+    border: 1px solid rgb(212, 237, 21);
+    margin-right: 5px;
+    border-radius: 15px;
+  
+}

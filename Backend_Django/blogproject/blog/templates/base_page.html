@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/b723bd9b3f.js"></script>
+
+	{% block title %} <title>LASYL BLOG</title> {% endblock  %}
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+  <!-- ========== Navbar ========== -->
+    <nav class="navbar nav-tabs bg-secondary navbar-expand-sm">
+          <div class="container-fluid">
+            <h1 class="text-warning"><strong class="text-dark">NEWS</strong> PORTAL</h1>
+          </div>
+             
+          <div class="col-sm-6 mr-0">
+          <ul class="navbar-nav justify-content-end">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'index' %}"><strong>Home</strong> </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'list' %}"><strong>News</strong> </a>
+            </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{% url 'dashboard' %}"> <strong>Dashboard</strong></a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{% url 'logout' %}" class="nav-link text-white"  
+              type="submit"><strong> Logout </strong></a>          
+            </li>
+
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'login' %}"><strong>Login</strong></a>
+          </li>      
+        {% endif %}
+        </ul>
+        </div>
+        <div class="container-fluid justify-content-end">
+          <form action="{% url 'search' %}" method="get" class="form-inline my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="searchbar" style="border-radius: 20px;">
+            <button class="btn btn-outline-success my-sm-0 mr-0"  type="submit" style="border-radius: 10px; border:solid 3px;" ><strong>Search</strong></button>
+          </form>        
+        <div>
+       
+    </nav>
+<!-- ========== END Navbar ========== -->
+
+<!-- ========== Alert Message ========== -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 offset-3">
+          {% for message in messages %}
+          <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+            <strong>Hello!</strong> {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div> 
+<!-- End Alert Messages -->
+    
+    <div class="containter">
+      <div class="row">
+        {% block content %} {% endblock  %}    
+      </div>
+    </div>
+      
+<section class="footer-nav">
+  <footer class="pt-4 pb-4  bg-secondary">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-md-12 text-md-center">
+          <h2 class="text-dark p-2"><strong>CONTACT US</strong></h2>
+          <span class="text-warning">
+            <h6> Kaliyakkavilai, Methukummal Post,Kanyakumari District Tamil Nadu 629 172</h6>
+            <p> +91 9597325352  |  info@retheesh.in</p><hr>
+          </span>
+        </div>         
+      </div>
+      <div class="container-fluid">
+        <div class="row" style="color: beige;">
+          <div class="col-md-6 text-md-left pl-4">
+            2023 Retheesh. All Rights Reserved
+          </div>
+          <div class="col-md-6 text-md-right pr-4">
+           &copy; Powered by: lasylblog.com
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</section> 
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% extends 'base_page.html' %}
+{% block title %} <title>Blog Delete</title> {% endblock  %}
+
+{% block content %}
+    <div class="container">
+        <div class="row" style="margin-top: 120px; margin-bottom: 270px;">
+            <div class="col-md-6  mx-auto bg-light my-4 p-4">
+                <div class="text-center">
+                    <h5 class="alert alert-danger">Confirm Delete</h5>
+                </div>
+                <div class="text-center">
+                    <b >Are you sure you want to Delete ?</b>
+                    <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="text-center">
+                        <button class="btn btn-danger mb-2 mt-4  mr-2" type="submit" value="Delete"></a>Delete</button>
+                        <a class="btn btn-secondary mt-4 mb-2" href="/blog/dashboard">Cancel</a>
+                    </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

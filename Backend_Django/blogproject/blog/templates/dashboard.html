@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/b723bd9b3f.js"></script>
+
+	{% block title %} <title>Dashboard</title> {% endblock  %}
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+  
+  <div class="container-fluid">
+    <div class="row ">
+    <!-- START Profile Section -->
+      <div class="col-sm-2" style="height: 739px; background-color:gainsboro"> 
+        <img class="profile rounded-circle mr-3" src="{% static 'images/avatar.svg' %}" alt="svg">
+        <h1 class="profile-name"><strong>{{user.username}}</strong></h1><hr>
+      <!--START Sidebar Nav -->
+        <a href="{% url 'create' %}" class="btn btn-outline-primary btn-block"><strong>CREATE POST</strong></a>
+        <nav class="navbar-expand-sm nav-menu">
+          <ul class="navbar-nav flex-sm-column bg-secondary">
+            <li class="nav-item">
+              <a href="{% url 'logout' %}" class="logout nav-link btn btn-outline-danger mb-2" 
+              type="submit"style="border-radius: 10px;"><strong>Logout</strong></a>          
+            </li>      
+          </ul>
+        </nav>
+      </div>
+    <!-- END Profile Section -->
+
+      <div class="col-sm-10 nav-section">
+    <!-- START Navbar Section -->
+          <nav class="navbar navbar-expand-lg bg-dark" >
+            <div class="container-fluid">
+              <h2 class="text-white"> <strong>DASHBOARD</strong></h2>
+            <!-- START Searchbar  -->
+            <form action="{% url 'filter' %}" method="get" class="form-inline my-lg-0">
+              <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="searchbar" style="border-radius: 20px;">
+              <button class="btn btn-outline-success my-sm-0" type="submit" style="border-radius: 20px;">Search</button>
+            </form>
+          </nav>
+    <!-- END Navbar Section -->
+  
+    <!--START Breadcrumb -->
+        <div>
+          <ul class = "breadcrumb justify-content-end">
+            <li class = "breadcrumb-item"><a href = "{% url 'list' %}"><strong>News</strong></a></li>
+            <li class = "breadcrumb-item active" aria-current = "page"><strong>Dashboard</strong></li>
+          </ul>
+        </div>
+    <!--END Breadcrumb -->
+
+    <!--START Table -->
+        <div class="col-sm-12 mt-md-0">      
+          <table class="table table-hover">
+            <thead class="thead" style="background-color: #e3f2fd;">
+              <tr>
+                <th class="align-middle">Sl.no</th>
+                <th class="align-middle">Image</th>
+                <th class="align-middle">Name</th>
+                <th class="align-middle">Created On</th>
+                <th class="align-middle">Last Updated</th>
+                <th class="align-middle">Action</th>
+              </tr>
+            </thead>
+            <tbody class="bg-light">
+            {% if page_obj %}
+            {% for p in page_obj %}
+              <tr>
+                <th class="align-middle"> {{ p.id}} </th>
+                <td class="align-middle"><img src="/blog/{{p.image.url}}" alt="image" style="height: 50px; width: 50px; border-radius: 10px;"></td>
+                <td class="align-middle table-title"> &nbsp; {{ p.title}}</td>
+                <td class="align-middle"><span>{{ p.created_on | date:"F d Y"}} </span></td>
+                <td class="align-middle"><span>{{ p.updated_on | date:"F d Y" }}</span></td>
+                <td class="align-middle">
+                  <a href="post/update/{{p.id}}" class="btn btn-primary mr-1">Update</a> 
+                  <a href="post/delete/{{p.id}}" class="btn btn-danger">Delete</a> 
+                </td>  
+              </tr>
+            {% endfor %}
+            {% else %}
+              <div class="alert alert-danger text-center" role="alert">
+                <p> No Results Found</p>
+              </div>
+            {% endif %}
+            </tbody>
+          </table>
+        </div>
+    <!-- END Table -->
+
+    <!-- START Pagination -->
+        <div class="container">
+          <div class="row">
+              <ul class="pagination pagination-sm pagination-position">
+                  <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}">
+                      <a class="page-link" href="{% if page_obj.has_previous %} ?page={{ page_obj.previous_page_number }} {% endif %} ">Previous</a>
+                  </li>    
+                  {% if page_obj.number|add:'-1' > 1 %}
+                      <li class="page-item disabled"><a class="page-link">&hellip;</a></li>
+                  {% endif %}
+            
+                  {% for i in page_obj.paginator.page_range %}
+                      {% if page_obj.number == i %}
+                          <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                      {% elif i > page_obj.number|add:'-2' and i < page_obj.number|add:'2' %}
+                          <li class="page-item"><span class="page-link"> {{ i }}</span></li>
+                      {% endif %}
+                  {% endfor %}
+            
+                  {% if page_obj.paginator.num_pages > page_obj.number|add:'1' %}
+                      <li class="page-item disabled"><a class="page-link" href="#">&hellip;</a></li>
+                  {% endif %}
+            
+                  <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}">
+                      <a class="page-link" href="{% if page_obj.has_next %} ?page={{ page_obj.next_page_number }} {% endif %}">Next</a>
+                  </li>
+              </ul>  
+          </div>
+        </div>
+    <!-- END Pagination -->
+      </div>
+    </div>
+  </div>
+  
+</body>
+</html>
+

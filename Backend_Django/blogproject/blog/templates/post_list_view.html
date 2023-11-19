@@ -1,0 +1,74 @@
+{% extends 'base_page.html' %}
+{% block title %} <title>LASYL BLOG</title> {% endblock  %}
+
+
+{% block content %}
+
+<!-- START >> Post List View -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="text-center">News</h1> <hr>
+                {% if page_obj %}
+                {% for post in page_obj %}
+                    <div class="card ">
+                        <img class="card-img-top " src="/blog/{{post.image.url}}" alt="Card-image" >
+                        <div class="card-body">
+                        <span class="card-title"><strong>{{post.title | slice:':35'}}</strong></span>
+                        <p class="subtitle">{{post.author}} | {{post.created_on}}</p>
+                        <p class="card-text">{{post.content | slice:":65"}}</p>
+                        <span style="color:green;"> Read more ..</span>
+                        <a href="/blog/post/detail/{{post.id}}" class="stretched-link"></a>  
+                        </div>
+                    </div>
+                {% endfor %} 
+                {% else %}
+                <div class="alert alert-warning" role="alert">
+                    There are no Posts in the Blog.
+                </div> 
+            {% endif %} 
+            </div>
+        </div>
+    </div>
+<!-- END << Post List View  -->
+
+<!--START >> Pagination -->
+{% block pagination %}
+
+    <div class="container">
+        <div class="row justify-content-center my-4 mb-4">
+            <ul class="pagination">
+                <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}">
+                    <a class="page-link" href="{% if page_obj.has_previous %} ?page={{ page_obj.previous_page_number }} {% endif %} ">Previous</a>
+                </li>
+          
+                {% if page_obj.number|add:'-1' > 1 %}
+                    <li class="page-item disabled"><a class="page-link">&hellip;</a></li>
+                {% endif %}
+          
+                {% for i in page_obj.paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                    {% elif i > page_obj.number|add:'-2' and i < page_obj.number|add:'2' %}
+                        <li class="page-item"><span class="page-link"> {{ i }}</span></li>
+                    {% endif %}
+                {% endfor %}
+          
+                {% if page_obj.paginator.num_pages > page_obj.number|add:'1' %}
+                    <li class="page-item disabled"><a class="page-link" href="#">&hellip;</a></li>
+                {% endif %}
+          
+                <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}">
+                    <a class="page-link" href="{% if page_obj.has_next %} ?page={{ page_obj.next_page_number }} {% endif %}">Next</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+ 
+{% endblock pagination %}
+
+<!-- END << pagination -->
+    
+     
+{% endblock  %}
+

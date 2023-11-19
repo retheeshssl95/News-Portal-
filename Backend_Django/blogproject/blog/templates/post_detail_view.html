@@ -1,0 +1,75 @@
+{% extends 'base_page.html' %}
+{% block title %} <title>Blogs Detail </title> {% endblock  %}
+
+{% load static %}
+
+{% block content %}
+    
+<!-- START Post Detail View -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img src="/blog/{{post.image.url}}" alt="image"  style="height: 600px; width: 100%; border-radius: 10px;">
+                <h1 class="post-title">{{post.title}}</h1>
+                <p class="post-content">{{post.content|linebreaksbr}}</p><hr> 
+            </div>
+        </div>
+    </div>
+<!-- END Post List View -->
+
+
+<!-- List of comments -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2>{{ post.comments.count}} Comments</h2> <hr>   
+                {% if not post.comments.all %}
+                    <p> There are no comments</p>
+                {% else %}   
+                    {% for comment in post.comments.all %}
+                        <div class="comtainer">
+                            <div class="row mb-3 justify-content-center">
+                                <div class="col-sm-11 p-3 bg-light" style="border-radius: 10px;">
+                                    <img class="rounded-circle mr-3" src="{% static 'images/avatar.svg' %}" alt="svg" height="50px" width="50px" style="float: left;">
+                                    <span><strong>{{ comment.name }}</strong></span>
+                                    <p class="text-muted">{{comment.created}}</p>
+                                    <p class="p-3">{{comment.comment|linebreaksbr}}</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %} 
+            </div>
+        </div>
+    </div>
+
+<!-- Leave a Comment -->
+    <div class="container">
+        <h4>Leave a Comment</h4><hr>
+        <div class="row">
+            <div class="col-sm-10 mx-auto p-4 mb-4 bg-light" style="border-radius: 5px;">
+                <form action="" method="post">
+                    {% csrf_token %}        
+                    <div class="form-group">
+                        <label for="comment">Comment</label>
+                        <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name  </label>
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Enter your Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email </label>
+                        <input type="email" name="email" id="email" class="form-control" 
+                        placeholder="Enter Your Email (Your email address will not be published)">
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-outline-primary" >Submit Comment</button>
+                    </div>
+                </form>         
+            </div>
+        </div>
+    </div>
+    
+{% endblock content %}
